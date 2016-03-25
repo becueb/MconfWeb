@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Mconfweb by becueb</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Mconfweb</h1>
+        <p>cole of the original mconf repo</p>
+
+        <p class="view"><a href="https://github.com/becueb/MconfWeb">View the Project on GitHub <small>becueb/MconfWeb</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/becueb/MconfWeb/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/becueb/MconfWeb/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/becueb/MconfWeb">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="ajout-bb" class="anchor" href="#ajout-bb" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ajout BB</h1>
+
+<p>Pour avoir un bon fonctionnement il faut absolument configurer monit
+copie du Mconf Web Wiki
+ Monit</p>
+
+<p>Monit is a tool for managing and monitoring processes in UNIX systems. It is installed as packages in your server and configured to monitor some processes needed by Mconf-Web. Monit will make sure all processes related to Mconf-Web are running, and it's your job to make sure that Monit is always running.</p>
+
+<p>Install monit:</p>
+
+<p>$ sudo apt-get install monit</p>
+
+<p>You shouldn't have problems regarding the version of Monit being used, but, for a reference, these instructions have been tested with Monit 5.3.2.</p>
+
+<p>The configuration files Mconf-Web uses for Monit are found in the application's folder config/monit/. We will simply include these files in Monit's configuration file, so they are loaded when monit starts. First, open the configuration file with an editor:</p>
+
+<p>$ sudo vim /etc/monit/monitrc</p>
+
+<p>Change the monitoring interval to 1 minute (it usually defaults to 2 minutes):</p>
+
+<p>set daemon 60</p>
+
+<p>Enable HTTP support by uncommenting the following lines:</p>
+
+<p>set httpd port 2812 and
+   use address localhost  # only accept connection from localhost
+   allow localhost</p>
+
+<p>Then install the configuration file:</p>
+
+<p>sudo wget <a href="https://raw.github.com/mconf/mconf-web/v2.0.x/config/monit/resque_workers.monitrc">https://raw.github.com/mconf/mconf-web/v2.0.x/config/monit/resque_workers.monitrc</a> -O /etc/monit/conf.d/resque_workers.monitrc</p>
+
+<p>Notice that this file contains the path to the application and the user/group that should be used to run the processes. They are set to use the default folder (/var/www/mconf-web/current) and user/group (mconf:mconf), but you should always check them to see if they fit your environment!
+Managing Monit: start, stop, log files</p>
+
+<p>To start and stop Monit you can simply run:</p>
+
+<p>$ sudo /etc/init.d/monit stop
+$ sudo /etc/init.d/monit start</p>
+
+<p>Be aware that stopping Monit will not stop the processes it monitors. You have to stop them individually before or after stopping Monit. When you start Monit, however, all processes are started. Monit is also started automatically when your server is started, so all processes will automatically be started.</p>
+
+<p>You can check if the processes being monitored are running with:</p>
+
+<p>$ ps aux | grep -e resque</p>
+
+<p>The response you get should include the processes in the example output below:</p>
+
+<p>mconf  13082  0.0 10.5 944220 106708 ?  Sl  Nov08  1:06 resque-1.25.1: Waiting for all</p>
+
+<p>To start or stop the processes individually, use:</p>
+
+<h1>
+<a id="for-resque-workers-all-of-them" class="anchor" href="#for-resque-workers-all-of-them" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>for resque workers: all of them</h1>
+
+<p>$ sudo monit -g resque_workers start
+$ sudo monit -g resque_workers stop</p>
+
+<h1>
+<a id="for-all-services" class="anchor" href="#for-all-services" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>for all services</h1>
+
+<p>$ sudo monit start all
+$ sudo monit stop all</p>
+
+<p>If any of the commands above fail with the message monit: Cannot connect to the monit daemon. Did you start it with http support?, you need to enable http support on Monit's config file. Open the configuration file at /etc/monit/monitrc. Search for a section similar to the one below and uncomment it:</p>
+
+<p>set httpd port 2812 and
+   use address localhost  # only accept connection from localhost
+   allow localhost        # allow localhost to connect to the server and</p>
+
+<h1>
+<a id="mconf-web----" class="anchor" href="#mconf-web----" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mconf-web <a href="https://travis-ci.org/mconf/mconf-web"><img src="https://travis-ci.org/mconf/mconf-web.svg?branch=master"></a> <a href="https://codeclimate.com/github/mconf/mconf-web"><img src="https://codeclimate.com/github/mconf/mconf-web/badges/gpa.svg"></a> <a href="https://hakiri.io/github/mconf/mconf-web/master"><img src="https://hakiri.io/github/mconf/mconf-web/master.svg" alt="security"></a> <a href="http://inch-ci.org/github/mconf/mconf-web"><img src="http://inch-ci.org/github/mconf/mconf-web.svg?branch=master" alt="Inline docs"></a>
+</h1>
+
+<p>Mconf-Web is the web application that provides access to web conferences in
+Mconf-Live or BigBlueButton servers.</p>
+
+<p>You can try out Mconf-Web at our free demo server at <a href="http://mconf.org">http://mconf.org</a>.</p>
+
+<p>Mconf-Web connects to an Mconf-Live or a
+<a href="http://www.bigbluebutton.org/">BigBlueButton</a> server and allows the users to
+create and participate in web conferences. It provides functionalities that
+are (by design) not implemented in the core of Mconf-Live/BigBlueButton, such
+as:</p>
+
+<ul>
+<li>User authentication;</li>
+<li>Permission control to access web conference rooms;</li>
+<li>Follows a social network model with spaces (communities) that have events;</li>
+<li>Users have their own web conferences that they can share with other
+members or even invite external participants;</li>
+<li>Each space also has a web conference room that the members can use to
+interact;</li>
+<li>Events can be used to schedule web conferences.</li>
+</ul>
+
+<p>For more details <a href="https://github.com/mconf/mconf-web/wiki">read our wiki</a>.</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>This project is under the <a href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL version 3
+license</a>. See LICENSE.</p>
+
+<h2>
+<a id="contact" class="anchor" href="#contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact</h2>
+
+<p>This project is developed as part of Mconf. Visit:</p>
+
+<ul>
+<li><a href="http://mconf.org">Mconf.org</a></li>
+<li><a href="https://github.com/mconf">Mconf at GitHub</a></li>
+<li><a href="http://dev.mconf.org">Issue tracker</a></li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/becueb">becueb</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
