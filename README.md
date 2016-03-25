@@ -5,6 +5,9 @@ Mconf-Live or BigBlueButton servers.
 
 You can try out Mconf-Web at our free demo server at http://mconf.org.
 
+###forum d'aide
+   https://groups.google.com/forum/#!forum/mconf-dev
+
 ## Il faut absolument configurer Monit, Extrait du wiki Mconf-Web
 #### en premier
 Take a look if you have the file "/var/www/mconf-web/current/tmp/restart.txt". This file is used by capistrano to restart Mconf-Web, so there's a "task" in Monit that checks if this restart.txt file was modified. If it doesn't exist, you have to create it "touch /var/www/mconf-web/current/tmp/restart.txt"
