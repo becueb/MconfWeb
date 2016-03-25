@@ -5,10 +5,9 @@ Mconf-Live or BigBlueButton servers.
 
 You can try out Mconf-Web at our free demo server at http://mconf.org.
 
-Il faut absolument configurer Monit
-Extrait du wiki Mconf-Web
+## Il faut absolument configurer Monit, Extrait du wiki Mconf-Web
 
- Monit
+### Monit
 
 Monit is a tool for managing and monitoring processes in UNIX systems. It is installed as packages in your server and configured to monitor some processes needed by Mconf-Web. Monit will make sure all processes related to Mconf-Web are running, and it's your job to make sure that Monit is always running.
 
