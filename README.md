@@ -7,11 +7,11 @@ You can try out Mconf-Web at our free demo server at http://mconf.org.
 
 ## Il faut absolument configurer Monit, Extrait du wiki Mconf-Web
 
-### Monit
+# Monit
 
 Monit is a tool for managing and monitoring processes in UNIX systems. It is installed as packages in your server and configured to monitor some processes needed by Mconf-Web. Monit will make sure all processes related to Mconf-Web are running, and it's your job to make sure that Monit is always running.
 
-Install monit:
+## Install monit:
 
 $ sudo apt-get install monit
 
@@ -31,14 +31,14 @@ set httpd port 2812 and
    use address localhost  # only accept connection from localhost
    allow localhost
 
-Then install the configuration file:
+## Then install the configuration file:
 
 sudo wget https://raw.github.com/mconf/mconf-web/v2.0.x/config/monit/resque_workers.monitrc -O /etc/monit/conf.d/resque_workers.monitrc
 
 Notice that this file contains the path to the application and the user/group that should be used to run the processes. They are set to use the default folder (/var/www/mconf-web/current) and user/group (mconf:mconf), but you should always check them to see if they fit your environment!
 Managing Monit: start, stop, log files
 
-To start and stop Monit you can simply run:
+## To start and stop Monit you can simply run:
 
 $ sudo /etc/init.d/monit stop
 $ sudo /etc/init.d/monit start
@@ -53,13 +53,13 @@ The response you get should include the processes in the example output below:
 
 mconf  13082  0.0 10.5 944220 106708 ?  Sl  Nov08  1:06 resque-1.25.1: Waiting for all
 
-To start or stop the processes individually, use:
+## To start or stop the processes individually, use:
 
-# for resque workers: all of them
+### for resque workers: all of them
 $ sudo monit -g resque_workers start
 $ sudo monit -g resque_workers stop
 
-# for all services
+###  for all services
 $ sudo monit start all
 $ sudo monit stop all
 
