@@ -6,8 +6,9 @@ Mconf-Live or BigBlueButton servers.
 You can try out Mconf-Web at our free demo server at http://mconf.org.
 
 ## Il faut absolument configurer Monit, Extrait du wiki Mconf-Web
-en premier
+#### en premier
 Take a look if you have the file "/var/www/mconf-web/current/tmp/restart.txt". This file is used by capistrano to restart Mconf-Web, so there's a "task" in Monit that checks if this restart.txt file was modified. If it doesn't exist, you have to create it "touch /var/www/mconf-web/current/tmp/restart.txt"
+
 ## Monit
 
 Monit is a tool for managing and monitoring processes in UNIX systems. It is installed as packages in your server and configured to monitor some processes needed by Mconf-Web. Monit will make sure all processes related to Mconf-Web are running, and it's your job to make sure that Monit is always running.
